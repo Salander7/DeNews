@@ -4,7 +4,7 @@
 
 DeNews is a daily news app built with SwiftUI that keeps you updated with articles across categories like General, Entertainment, Sports, Health, Science, and Technology, powered by the News API, and crafted with SwiftData and Swift's new Observation system.
 
-![Image](https://github.com/user-attachments/assets/78cf21a9-1c28-46d3-9866-7d9949e52f6f)
+![Image](https://github.com/user-attachments/assets/4b5a96a3-717a-4d17-a91d-360c832b7e77)
 
 This app is crafted entirely in Swift using SwiftUI. The project takes advantage of Swift's new Observation system, SwiftData for robust data persistence, and MainActor for efficient UI updates.
 
