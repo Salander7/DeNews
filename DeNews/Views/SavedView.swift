@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct SavedView: View {
+    @Environment(\.modelContext) private var modelContext
     var savedViewModel: SavedArticlesViewModel
     @State private var selectedArticleUrl: URL?
 
@@ -30,7 +32,6 @@ struct SavedView: View {
                                             .scaledToFill()
                                             .frame(width: 60, height: 60)
                                             .clipShape(RoundedRectangle(cornerRadius: 8))
-                                        
                                     } placeholder: {
                                         Color.gray
                                             .frame(width: 60, height: 60)
@@ -73,11 +74,10 @@ struct SavedView: View {
             .sheet(item: $selectedArticleUrl) { url in
                 SafariView(url: url)
             }
+            .onAppear {
+                savedViewModel.loadSavedArticles()
+            }
         }
     }
-}
-
-#Preview {
-    SavedView(savedViewModel: SavedArticlesViewModel())
 }
 

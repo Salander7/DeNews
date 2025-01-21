@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 enum TabItem: Hashable {
     case home
@@ -13,21 +14,46 @@ enum TabItem: Hashable {
 }
 
 struct TabBarView: View {
-    @State private var savedViewModel = SavedArticlesViewModel()
+    @Environment(\.modelContext) private var modelContext
+    @State private var savedViewModel: SavedArticlesViewModel?
     @State private var selectedTab: TabItem = .home
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            Tab("Home", systemImage: "house", value: TabItem.home) {
+            if let savedViewModel = savedViewModel {
                 MainView(viewModel: MainViewModel(), savedViewModel: savedViewModel)
-            }
-            
-            Tab("Saved", systemImage: "bookmark", value: TabItem.saved) {
+                    .tag(TabItem.home)
+                    .tabItem {
+                        Label("Home", systemImage: "house")
+                    }
+
                 SavedView(savedViewModel: savedViewModel)
+                    .tag(TabItem.saved)
+                    .tabItem {
+                        Label("Saved", systemImage: "bookmark")
+                    }
+            } else {
+                Text("Loading...")
+                    .tag(TabItem.home)
+                    .tabItem {
+                        Label("Home", systemImage: "house")
+                    }
+
+                Text("Loading...")
+                    .tag(TabItem.saved)
+                    .tabItem {
+                        Label("Saved", systemImage: "bookmark")
+                    }
             }
         }
         .tint(.primary)
+        .onAppear {
+            if savedViewModel == nil {
+                savedViewModel = SavedArticlesViewModel(modelContext: modelContext)
+            }
+        }
     }
+    
 }
 
 #Preview {

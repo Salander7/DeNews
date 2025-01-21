@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct DeNewsApp: App {
@@ -13,6 +14,6 @@ struct DeNewsApp: App {
         WindowGroup {
             TabBarView()
         }
+        .modelContainer(for: [SavedArticle.self])
     }
 }
-

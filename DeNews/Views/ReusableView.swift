@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ReusableView: View {
     var article: Article
@@ -99,7 +100,8 @@ struct ReusableView: View {
             AdditionalArticlesView(
                 additionalArticles: additionalArticles,
                 selectedArticleUrl: $selectedArticleUrl,
-                savedViewModel: savedViewModel)
+                savedViewModel: savedViewModel
+            )
         }
         .frame(maxWidth: .infinity)
         .sheet(item: $selectedArticleUrl) { url in
@@ -109,11 +111,15 @@ struct ReusableView: View {
 }
 
 #Preview {
+    let container = try! ModelContainer(for: SavedArticle.self)
+    let savedViewModel = SavedArticlesViewModel(modelContext: container.mainContext)
     ReusableView(
         article: Article.example,
         imageUrl: Article.example.urlToImage,
         additionalArticles: [Article.example, Article.example, Article.example, Article.example, Article.example],
-        savedViewModel: SavedArticlesViewModel()
+        savedViewModel: savedViewModel
     )
+    .modelContainer(container)
 }
+
 

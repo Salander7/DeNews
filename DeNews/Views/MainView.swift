@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MainView: View {
     @State private var isSearching = false
@@ -32,7 +33,8 @@ struct MainView: View {
                                 article: article,
                                 imageUrl: article.urlToImage,
                                 additionalArticles: Array(viewModel.categoryArticles[selectedCategory]?.dropFirst() ?? []),
-                                savedViewModel: savedViewModel)
+                                savedViewModel: savedViewModel
+                            )
                             .padding(.leading, 20)
                         } else {
                             Text("No headline available")
@@ -103,5 +105,10 @@ struct MainView: View {
 }
 
 #Preview {
-    MainView(viewModel: MainViewModel(), savedViewModel: SavedArticlesViewModel())
+    let container = try! ModelContainer(for: SavedArticle.self)
+    let savedViewModel = SavedArticlesViewModel(modelContext: container.mainContext)
+    MainView(viewModel: MainViewModel(), savedViewModel: savedViewModel)
+        .modelContainer(container)
 }
+
+
